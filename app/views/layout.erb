@@ -15,10 +15,38 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/javascript/application.js"></script>
 
-  <title></title>
+  <title>Contact List (SPA)</title>
 </head>
 <body>
-  <%= yield %>
+  <div class="well">
+    <table class='table table-striped table-hover'>
+      <tr>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Register Time</th>
+        <th>Admin</th>
+        <th></th>
+      </tr>
+      <%= paginate @users %>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.full_name, edit_admin_user_path(user) %></td>
+          <td><%= user.email %></td>
+          <td><%= user.created_at %></td>
+          <td><%= "Admin" if user.admin? %></td>
+          <td>
+            <%= link_to 'Delete', admin_user_path(user), class: 'btn btn-danger btn-xs', method: :delete, data: {confirm: 'Are you sure?'} %>
+            <%= link_to 'Switch to', "/admin/sessions/impersonate/#{user.id}", class: 'btn btn-primary btn-xs' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+
+  <div id="contacts">
+    <h2>All Contacts</h2>
+  </div>
 </body>
 </html>
-
